@@ -8,6 +8,12 @@ Spree::Product.class_eval do
   # allowed customizations
   has_and_belongs_to_many :product_customization_types
 
+  make_permalink field: :slug
+
+  def permalink
+    slug
+  end
+
   private
 
   def attach_option_values(ad_hoc_option_type)
