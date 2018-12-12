@@ -15,3 +15,4 @@ spec/dummy
 coverage/
 .ruby-version
 .ruby-gemset
+*.gem
