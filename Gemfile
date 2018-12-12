@@ -6,6 +6,7 @@ gem "solidus_auth_devise", github: "solidusio/solidus_auth_devise"
 
 group :test, :development do
   gem "pry"
+  gem "puma"
 end
 
 if branch == 'master' || branch >= "v2.0"
