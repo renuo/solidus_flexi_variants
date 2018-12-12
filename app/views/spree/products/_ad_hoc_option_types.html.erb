@@ -18,7 +18,7 @@
         <% class_str += ' required' if ad_hoc_option_type.is_required %>
         <% class_str += ' ad_hoc' if @product.ad_hoc_variant_exclusions.present? %>
         <%# render a custom partial based on the option type name? %>
-        <% partial_name = "spree/products/ad_hoc_options/#{option_type.name.gsub(/(-)|(\s)/,"_").downcase}" %>
+        <% partial_name = "spree/products/ad_hoc_options/#{option_type.name.gsub(/(-)|(\s)/, '_').downcase}" %>
 
         <% if lookup.exists?(partial_name, nil, true) %>
           <div class='col-sm-<%= I18n.t(:variant_col_size, scope: [:spree]) %>'>
