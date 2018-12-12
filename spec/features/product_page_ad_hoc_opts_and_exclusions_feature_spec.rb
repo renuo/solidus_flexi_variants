@@ -7,7 +7,6 @@ describe 'Ad Hoc Variant Exclusions', :js, type: :feature do
   let(:color_select) { "ad_hoc_option_values[#{test_product.ad_hoc_option_types.first.id}]" }
   let(:size_select) { "ad_hoc_option_values[#{test_product.ad_hoc_option_types.last.id}]" }
 
-
   # Exclusion is the combination of Red and Small
   context 'Variant Exclusions' do
     before do
@@ -22,10 +21,10 @@ describe 'Ad Hoc Variant Exclusions', :js, type: :feature do
 
       select('Red', from: color_select)
       expect(page).to_not have_select(size_select, options: ['Small'])
-      expect(page).to have_select(size_select, options: ['None', 'Medium', 'Large'])
+      expect(page).to have_select(size_select, options: %w[None Medium Large])
 
       select('Blue', from: color_select)
-      expect(page).to have_select(size_select, options: ['None', 'Small', 'Medium', 'Large'])
+      expect(page).to have_select(size_select, options: %w[None Small Medium Large])
     end
   end
 
@@ -40,9 +39,8 @@ describe 'Ad Hoc Variant Exclusions', :js, type: :feature do
 
     it 'has all ad hoc option values listed' do
       expect(page).to have_select(color_select, options: ['None', 'Red  (Add $5.00)', 'Green', 'Blue'])
-      expect(page).to have_select(size_select, options: ['None', 'Small', 'Medium', 'Large'])
+      expect(page).to have_select(size_select, options: %w[None Small Medium Large])
     end
-
 
     it 'selecting Red changes price' do
       expect(find('.price.selling').has_content?('$12.99')).to be_truthy

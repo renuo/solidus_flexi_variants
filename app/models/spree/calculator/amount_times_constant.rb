@@ -6,7 +6,7 @@ module Spree
     preference :max_amount, :integer, default: 100
 
     def self.description
-      "Amount Times Constant Calculator"
+      'Amount Times Constant Calculator'
     end
 
     def self.register
@@ -17,13 +17,17 @@ module Spree
     def create_options
       # This calculator knows that it needs one CustomizableOption named amount
       [
-       CustomizableProductOption.create(name: "amount", presentation: "Amount")
+        CustomizableProductOption.create(name: 'amount', presentation: 'Amount')
       ]
     end
 
-    def compute(product_customization, variant=nil)
+    def compute(product_customization, _variant = nil)
       # expecting only one CustomizedProductOption
-      opt = product_customization.customized_product_options.detect {|cpo| cpo.customizable_product_option.name == "amount" } rescue 0.0
+      opt = begin
+              product_customization.customized_product_options.detect { |cpo| cpo.customizable_product_option.name == 'amount' }
+            rescue StandardError
+              0.0
+            end
 
       return 0 if opt.value.nil?
 

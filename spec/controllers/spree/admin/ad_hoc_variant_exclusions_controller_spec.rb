@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 RSpec.describe Spree::Admin::AdHocVariantExclusionsController, type: :controller do
   stub_authorization!
 
@@ -12,9 +11,9 @@ RSpec.describe Spree::Admin::AdHocVariantExclusionsController, type: :controller
     let!(:ad_hoc_variant_exclusion) { create(:ad_hoc_variant_exclusion) }
     let(:params) { { id: ad_hoc_variant_exclusion.id, product_id: ad_hoc_variant_exclusion.product.id } }
 
-    subject {
+    subject do
       delete :destroy, params: params
-    }
+    end
 
     it 'destroys the ad hoc option value' do
       expect { subject }.to change { Spree::AdHocVariantExclusion.count }.from(1).to(0)

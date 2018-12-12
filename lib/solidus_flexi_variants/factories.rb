@@ -30,7 +30,6 @@ FactoryBot.define do
     sequence(:description) { |n| "Customizable Product Option Description ##{n} - #{Kernel.rand(9999)}" }
 
     product_customization_type { |p| p.association(:product_customization_type) }
-
   end
 end
 
@@ -56,7 +55,6 @@ FactoryBot.define do
     option_type { |p| p.association(:option_type) }
   end
 end
-
 
 FactoryBot.define do
   factory :ad_hoc_option_value, class: Spree::AdHocOptionValue do
@@ -85,4 +83,3 @@ FactoryBot.define do
     ad_hoc_option_value { |p| p.association(:ad_hoc_option_value) }
   end
 end
-

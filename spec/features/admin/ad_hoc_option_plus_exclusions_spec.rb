@@ -30,7 +30,7 @@ describe 'Ad Hoc Option Values / Ad Hoc Variant Exclusions ', :js, type: :featur
       go_to_edit_ad_hoc_option_type
 
       expect(all('#option_values tr').length).to eq(2)
-      #add
+      # add
       within('#available_option-values') do
         find('.fa.fa-plus', match: :first).click
       end
@@ -39,9 +39,9 @@ describe 'Ad Hoc Option Values / Ad Hoc Variant Exclusions ', :js, type: :featur
 
       expect(all('#option_values tr').length).to eq(3)
 
-      #check the update
+      # check the update
       check 'ad_hoc_option_type_is_required'
-      within("#ad_hoc_option_type .option_value", match: :first) do
+      within('#ad_hoc_option_type .option_value', match: :first) do
         fill_in 'ad_hoc_option_type_ad_hoc_option_values_attributes_0_price_modifier', with: '1'
         check 'ad_hoc_option_type_ad_hoc_option_values_attributes_0_selected'
       end
@@ -49,15 +49,14 @@ describe 'Ad Hoc Option Values / Ad Hoc Variant Exclusions ', :js, type: :featur
       expect(page).to have_content(/Ad hoc option type "color" has been successfully updated!/i)
       find('#ad_hoc_option_types .fa.fa-edit', match: :first).click
 
-
       expect find('#ad_hoc_option_type_is_required').should be_checked
-      within("#ad_hoc_option_type .option_value", match: :first) do
+      within('#ad_hoc_option_type .option_value', match: :first) do
         expect(page).to have_selector("input[value='1.0']")
         expect find('#ad_hoc_option_type_ad_hoc_option_values_attributes_0_selected').should be_checked
       end
       click_on('Cancel')
       expect(page).to have_content(/Add Option Types/i)
-      #test deleting a option type
+      # test deleting a option type
       find('.fa.fa-trash').click
 
       accept_alert
@@ -67,7 +66,7 @@ describe 'Ad Hoc Option Values / Ad Hoc Variant Exclusions ', :js, type: :featur
 
       expect(all('#ad_hoc_option_types tbody tr').length).to eq(0)
 
-      #test adding an option type
+      # test adding an option type
       sleep 4
       find('#new_ahot_link > a', match: :first).trigger('click')
       find('.fa.fa-plus', match: :first).click
@@ -89,8 +88,8 @@ describe 'Ad Hoc Option Values / Ad Hoc Variant Exclusions ', :js, type: :featur
 
       wait_for_ajax
 
-      select "red", from: color_select
-      select "small", from: size_select
+      select 'red', from: color_select
+      select 'small', from: size_select
       click_on('Create')
       expect(all('#listing_ad_hoc_variant_exclusions tr').length).to eq(2)
       find('.fa.fa-trash').click

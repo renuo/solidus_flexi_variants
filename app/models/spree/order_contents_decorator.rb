@@ -1,5 +1,4 @@
 Spree::OrderContents.class_eval do
-
   private
 
   def add_to_line_item(variant, quantity, options = {})
@@ -8,7 +7,7 @@ Spree::OrderContents.class_eval do
 
     line_item ||= order.line_items.new(
       quantity: 0,
-      variant: variant,
+      variant: variant
     )
 
     #### separate options to standard, product_customizations, and add_hoc_option_values
@@ -26,7 +25,7 @@ Spree::OrderContents.class_eval do
     end
 
     ####### This line is added to make solidus_flexi_variants save customizations
-    if product_customizations_values != nil || ad_hoc_option_value_ids != nil
+    if product_customizations_values || ad_hoc_option_value_ids
       line_item = flexi_variants(variant, line_item, product_customizations_values, ad_hoc_option_value_ids)
     end
     ######
@@ -41,29 +40,30 @@ Spree::OrderContents.class_eval do
   end
 
   def flexi_variants(variant, line_item, product_customizations_values, ad_hoc_option_value_ids)
-      product_customizations_values ||= []
-      ad_hoc_option_value_ids ||= []
-      customizations_offset_price = 0
-      ad_hoc_options_offset_price = 0
+    product_customizations_values ||= []
+    ad_hoc_option_value_ids ||= []
+    customizations_offset_price = 0
+    ad_hoc_options_offset_price = 0
 
-      if product_customizations_values.count > 0
-        customizations_offset_price = line_item.add_customizations(product_customizations_values)
-      end
+    if product_customizations_values.count > 0
+      customizations_offset_price = line_item.add_customizations(product_customizations_values)
+    end
 
-      # find, and add the configurations, if any.  these have not been fetched from the db yet.              line_items.first.variant_id
-      # we postponed it (performance reasons) until we actually know we needed them
-      if ad_hoc_option_value_ids.count > 0
-        ad_hoc_options_offset_price = line_item.add_ad_hoc_option_values(ad_hoc_option_value_ids)
-      end
+    # find, and add the configurations, if any.  these have not been fetched from the db yet.              line_items.first.variant_id
+    # we postponed it (performance reasons) until we actually know we needed them
+    if ad_hoc_option_value_ids.count > 0
+      ad_hoc_options_offset_price = line_item.add_ad_hoc_option_values(ad_hoc_option_value_ids)
+    end
 
-      line_item.price = variant.price_in(order.currency).amount + customizations_offset_price + ad_hoc_options_offset_price
+    line_item.price = variant.price_in(order.currency).amount + customizations_offset_price + ad_hoc_options_offset_price
 
-      return line_item
+    line_item
   end
 
   # Bringing in since it was taken out of version 2.5
   def create_order_stock_locations(line_item, stock_location_quantities)
     return unless stock_location_quantities.present?
+
     order = line_item.order
     stock_location_quantities.each do |stock_location_id, quantity|
       order.order_stock_locations.create!(stock_location_id: stock_location_id, quantity: quantity, variant_id: line_item.variant_id) unless quantity.to_i.zero?

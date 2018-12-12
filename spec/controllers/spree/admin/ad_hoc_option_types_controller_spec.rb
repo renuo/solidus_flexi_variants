@@ -1,12 +1,10 @@
 require 'spec_helper'
 
-
 RSpec.describe Spree::Admin::AdHocOptionTypesController, type: :controller do
   stub_authorization!
 
   let(:option_type) { create(:ad_hoc_option_type) }
   let(:product) { option_type.product }
-
 
   describe '#index' do
     subject { get :index, params: { product_id: product.slug } }
@@ -38,11 +36,11 @@ RSpec.describe Spree::Admin::AdHocOptionTypesController, type: :controller do
     context 'on success' do
       subject { get :add_option_value, params: { product_id: product.slug, id: option_type.id, option_value_id: option_value.id } }
       it 'creates an AdHocOptionValue' do
-        expect{ subject }.to change(Spree::AdHocOptionValue, :count).by(1)
+        expect { subject }.to change(Spree::AdHocOptionValue, :count).by(1)
       end
 
       it 'adds the option value to the ad hoc option type' do
-        expect{ subject }.to change(option_type.option_values, :count).by(1)
+        expect { subject }.to change(option_type.option_values, :count).by(1)
       end
     end
 
@@ -73,7 +71,7 @@ RSpec.describe Spree::Admin::AdHocOptionTypesController, type: :controller do
     subject { post :create, params: { product_id: product.slug, option_type_id: option_type.id } }
 
     it 'increases AdHocOptionType count by 1' do
-      expect{ subject }.to change(Spree::AdHocOptionType, :count).by(1)
+      expect { subject }.to change(Spree::AdHocOptionType, :count).by(1)
     end
 
     it 'adds the AdHocOptionType to the product' do

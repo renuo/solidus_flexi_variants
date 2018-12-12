@@ -5,7 +5,7 @@ module Spree
     preference :price_per_letter, :decimal
 
     def self.description
-      "Engraving Calculator"
+      'Engraving Calculator'
     end
 
     def self.register
@@ -16,12 +16,16 @@ module Spree
     def create_options
       # This calculator knows that it needs one CustomizableOption named inscription
       [
-       CustomizableProductOption.create(name: "inscription", presentation: "Inscription")
+        CustomizableProductOption.create(name: 'inscription', presentation: 'Inscription')
       ]
     end
 
-    def compute(product_customization, variant=nil)
-      opt = product_customization.customized_product_options.detect {|cpo| cpo.customizable_product_option.name == "inscription" } rescue ''
+    def compute(product_customization, _variant = nil)
+      opt = begin
+              product_customization.customized_product_options.detect { |cpo| cpo.customizable_product_option.name == 'inscription' }
+            rescue StandardError
+              ''
+            end
       # The rescue will make the next line raise an error, is that what we want?
       opt.value.length * (preferred_price_per_letter || 0)
     end

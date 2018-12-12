@@ -1,7 +1,7 @@
 module Spree
   class Admin::ProductCustomizationTypesController < Admin::ResourceController
-    before_action :load_product, only: [:selected, :available, :remove, :select]
-    before_action :load_calculators, only: [:new, :edit]
+    before_action :load_product, only: %i[selected available remove select]
+    before_action :load_calculators, only: %i[new edit]
 
     # product related changes
 
@@ -21,14 +21,13 @@ module Spree
     def remove
       @product.product_customization_types.delete(@product_customization_type)
       if @product.save
-        flash[:success] = I18n.t("spree.notice_messages.product_customization_type_removed")
+        flash[:success] = I18n.t('spree.notice_messages.product_customization_type_removed')
       else
         flash[:error] = 'Error in deleting Customization Type'
       end
 
       redirect_to selected_admin_product_product_customization_types_url(@product)
     end
-
 
     # AJAX method for selecting an existing option type and associating with the current product
     def select
@@ -56,7 +55,7 @@ module Spree
 
     def edit
       if @product_customization_type.customizable_product_options.empty?
-        if !@product_customization_type.calculator.nil?
+        if @product_customization_type.calculator
 
           opts = @product_customization_type.calculator.create_options
           @product_customization_type.customizable_product_options.concat opts if opts
@@ -86,7 +85,7 @@ module Spree
       @product.product_customization_types.each do |pct|
         selected_product_customization_types << pct
       end
-      @available_product_customization_types.delete_if {|pct| selected_product_customization_types.include? pct}
+      @available_product_customization_types.delete_if { |pct| selected_product_customization_types.include? pct }
     end
   end
 end

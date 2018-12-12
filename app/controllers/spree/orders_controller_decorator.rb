@@ -1,5 +1,4 @@
 Spree::OrdersController.class_eval do
-
   include ProductCustomizations
   include AdHocUtils
 
@@ -15,7 +14,7 @@ Spree::OrdersController.class_eval do
       begin
         order.contents.add(variant, quantity, params[:options])
       rescue ActiveRecord::RecordInvalid => e
-        error = e.record.errors.full_messages.join(", ")
+        error = e.record.errors.full_messages.join(', ')
       end
     else
       error = I18n.t(:please_enter_reasonable_quantity, scope: [:spree])
@@ -39,5 +38,4 @@ Spree::OrdersController.class_eval do
     params[:options][:product_customizations] = product_customizations
     params[:options][:customization_price] = params[:customization_price] if params[:customization_price]
   end
-
 end

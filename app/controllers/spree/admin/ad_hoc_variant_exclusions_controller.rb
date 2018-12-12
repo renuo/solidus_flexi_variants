@@ -1,14 +1,14 @@
 module Spree
   module Admin
     class AdHocVariantExclusionsController < ResourceController
-
       before_action :load_product
 
       def create
-        return unless params["ad_hoc_option_type"]
+        return unless params['ad_hoc_option_type']
 
-        params["ad_hoc_option_type"].each_pair do |otid, ovid|
+        params['ad_hoc_option_type'].each_pair do |_otid, ovid|
           next if ovid.empty?
+
           eov = ExcludedAdHocOptionValue.create(ad_hoc_variant_exclusion: @ad_hoc_variant_exclusion, ad_hoc_option_value_id: ovid)
         end
         @ad_hoc_variant_exclusion.product = @product
@@ -23,7 +23,7 @@ module Spree
 
       def destroy
         if @ad_hoc_variant_exclusion.destroy
-          flash[:success] = I18n.t("spree.notice_messages.ad_hoc_variant_exclusion_removed")
+          flash[:success] = I18n.t('spree.notice_messages.ad_hoc_variant_exclusion_removed')
         else
           flash[:error] = 'Error Deleting Ad Hoc Variant Exclusion'
         end
@@ -38,12 +38,11 @@ module Spree
 
       def load_product
         @product = if params[:product_id].present?
-          Product.friendly.find(params[:product_id])
-        else
-          @ad_hoc_variant_exclusion.product
+                     Product.friendly.find(params[:product_id])
+                   else
+                     @ad_hoc_variant_exclusion.product
         end
       end
-
     end
   end
 end

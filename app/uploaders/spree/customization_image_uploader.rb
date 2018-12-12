@@ -1,9 +1,7 @@
-# encoding: utf-8
 require 'carrierwave'
 # feel like this should switch to paperclip and just use sprees defaults
 module Spree
   class CustomizationImageUploader < CarrierWave::Uploader::Base
-
     # Include RMagick or ImageScience support:
     # include CarrierWave::RMagick
     # include CarrierWave::ImageScience
@@ -51,6 +49,5 @@ module Spree
     # def filename
     #   "something.jpg" if original_filename
     # end
-
   end
 end

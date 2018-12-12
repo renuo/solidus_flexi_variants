@@ -10,7 +10,7 @@ RSpec.describe Spree::Product do
     end
 
     it 'creates ad hoc option values from the option types option values' do
-      expect {subject}.to change{ad_hoc_option_type.ad_hoc_option_values.length}.from(0).to(1)
+      expect { subject }.to change { ad_hoc_option_type.ad_hoc_option_values.length }.from(0).to(1)
     end
   end
 end

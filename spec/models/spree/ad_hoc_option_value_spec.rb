@@ -1,10 +1,8 @@
 require 'spec_helper'
 
-
 RSpec.describe Spree::AdHocOptionValue do
   let(:option_value) { build(:option_value, name: 'large', presentation: 'L') }
   let(:ad_hoc_option_value) { build(:ad_hoc_option_value, option_value: option_value) }
-
 
   describe '#name' do
     it 'delegates to option value name' do

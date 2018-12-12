@@ -1,13 +1,12 @@
 Spree::Core::Engine.routes.draw do
-  match 'product_customizations/price', to: 'product_customizations#price', via: [:get, :post]
+  match 'product_customizations/price', to: 'product_customizations#price', via: %i[get post]
 
-  match 'customize/:product_id', to: 'products#customize', as: 'customize', via: [:get, :post]
+  match 'customize/:product_id', to: 'products#customize', as: 'customize', via: %i[get post]
 
   namespace :admin do
-    resources :product_customization_types, only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :product_customization_types, only: %i[index new create edit update destroy]
 
     resources :products do
-
       resources :ad_hoc_option_types, except: [:show] do
         member do
           get :add_option_value
@@ -22,7 +21,7 @@ Spree::Core::Engine.routes.draw do
         end
       end
 
-      resources :ad_hoc_variant_exclusions, except: [:edit, :update]
+      resources :ad_hoc_variant_exclusions, except: %i[edit update]
 
       resources :product_customization_types, except: [:index] do
         member do
@@ -36,8 +35,8 @@ Spree::Core::Engine.routes.draw do
           get :available
         end
       end
-    end #products
+    end # products
   end # namespace :admin
 
-  match 'admin/variant_configurations/:variant_id', to: 'admin/variant_configurations#configure', via: [:get, :post]
+  match 'admin/variant_configurations/:variant_id', to: 'admin/variant_configurations#configure', via: %i[get post]
 end

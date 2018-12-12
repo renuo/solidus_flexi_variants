@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 RSpec.describe Spree::CustomizedProductOption do
   let(:customized_product_option) { build(:customized_product_option, value: value, customization_image: customization_image) }
   describe '#mount_uploader' do

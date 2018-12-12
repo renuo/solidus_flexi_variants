@@ -4,7 +4,7 @@ SimpleCov.start 'rails'
 # Configure Rails Environment
 ENV['RAILS_ENV'] = 'test'
 
-require File.expand_path('../dummy/config/environment.rb',  __FILE__)
+require File.expand_path('dummy/config/environment.rb', __dir__)
 
 require 'rspec/rails'
 require 'database_cleaner'
@@ -25,18 +25,15 @@ require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'capybara/poltergeist'
 Capybara.register_driver(:poltergeist) do |app|
-  Capybara::Poltergeist::Driver.new app, {
-    phantomjs_options: %w[--ssl-protocol=any --ignore-ssl-errors=true --load-images=false],
-    timeout: 90
-  }
+  Capybara::Poltergeist::Driver.new app,
+                                    phantomjs_options: %w[--ssl-protocol=any --ignore-ssl-errors=true --load-images=false],
+                                    timeout: 90
 end
 Capybara.javascript_driver = :poltergeist
 Capybara.default_max_wait_time = 10
 
 Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
 Dir[File.join(File.dirname(__FILE__), 'factories/*.rb')].each { |f| require f }
-
-
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
@@ -46,7 +43,7 @@ RSpec.configure do |config|
 
   config.infer_spec_type_from_file_location!
   config.mock_with :rspec
-  config.order = "random"
+  config.order = 'random'
   config.color = true
   config.use_transactional_fixtures = false
   config.fail_fast = ENV['FAIL_FAST'] || false

@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 RSpec.describe Spree::AdHocOptionType do
   let(:option_type) { build(:option_type, name: 'size', presentation: 'Size') }
   let(:ad_hoc_option_type) { build(:ad_hoc_option_type, option_type: option_type) }

@@ -4,7 +4,7 @@ Spree::Order.class_eval do
   # produces a list of [customizable_product_option.id,value] pairs for subsequent comparison
   def customization_pairs(product_customizations)
     pairs = product_customizations.map(&:customized_product_options).flatten.map do |m|
-      [m.customizable_product_option.id, m.value.present? ? m.value : m.customization_image.to_s ]
+      [m.customizable_product_option.id, m.value.present? ? m.value : m.customization_image.to_s]
     end
 
     Set.new pairs

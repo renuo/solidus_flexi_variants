@@ -6,7 +6,7 @@ module Spree
 
     def options_text # REFACTOR
       if customized?
-        str = Array.new
+        str = []
 
         ad_hoc_opt_values = ad_hoc_option_values.sort_by(&:position)
         ad_hoc_option_values.sort_by(&:position).each do |pov|
@@ -14,9 +14,9 @@ module Spree
         end
 
         product_customizations.each do |customization|
-          price_adjustment = (customization.price == 0) ? "" : " (#{Spree::Money.new(customization.price).to_s})"
+          price_adjustment = customization.price == 0 ? '' : " (#{Spree::Money.new(customization.price)})"
           customization_type_text = "#{customization.product_customization_type.presentation}#{price_adjustment}"
-          opts_text = customization.customized_product_options.map { |opt| opt.display_text }.join(', ')
+          opts_text = customization.customized_product_options.map(&:display_text).join(', ')
           str << customization_type_text + ": #{opts_text}"
         end
 
@@ -31,7 +31,7 @@ module Spree
     end
 
     def cost_price
-      (variant.cost_price || 0) + ad_hoc_option_values.map(&:cost_price).inject(0, :+)
+      (variant.cost_price || 0) + ad_hoc_option_values.map(&:cost_price).sum
     end
 
     def cost_money
@@ -42,8 +42,8 @@ module Spree
       self.product_customizations = product_customizations_values
       product_customizations_values.each { |product_customization| product_customization.line_item = self }
       product_customizations_values.map(&:save) # it is now safe to save the customizations we built
-      customizations_offset_price = product_customizations_values.map {|product_customization| product_customization.price(variant)}.compact.sum
-      return customizations_offset_price
+      customizations_offset_price = product_customizations_values.map { |product_customization| product_customization.price(variant) }.compact.sum
+      customizations_offset_price
     end
 
     def add_ad_hoc_option_values(ad_hoc_option_value_ids)
@@ -52,8 +52,7 @@ module Spree
       end.compact
       self.ad_hoc_option_values = product_option_values
       ad_hoc_options_offset_price = product_option_values.map(&:price_modifier).compact.sum
-      return ad_hoc_options_offset_price
+      ad_hoc_options_offset_price
     end
-
   end
 end

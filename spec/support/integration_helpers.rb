@@ -1,5 +1,4 @@
 module IntegrationHelpers
-
   def login_user(user = nil, options = {})
     options[:password] ||= 'secret'
     user ||= create(:user)
@@ -60,18 +59,17 @@ module IntegrationHelpers
     size_option_type = create(:option_type, name: 'size', presentation: 'Size')
     size_ad_hoc_option_type = create(:ad_hoc_option_type, option_type_id: size_option_type.id, product_id: product.id, position: 1)
 
-    %w(Small Medium Large).each do |size|
+    %w[Small Medium Large].each do |size|
       option_value = create(:option_value, name: size.downcase, presentation: size, option_type: size_option_type)
       size_ad_hoc_option_type.ad_hoc_option_values.create!(option_value_id: option_value.id)
     end
   end
 
-
   def setup_option_types_plus_ad_hoc_option_type_color(product)
     color_option_type = create(:option_type, name: 'color', presentation: 'Color')
     color_ad_hoc_option_type = create(:ad_hoc_option_type, option_type_id: color_option_type.id, product_id: product.id)
 
-    %w(Red Green Blue).each do |color|
+    %w[Red Green Blue].each do |color|
       option_value = create(:option_value, name: color.downcase, presentation: color, option_type: color_option_type)
       color_ad_hoc_option_type.ad_hoc_option_values.create!(option_value_id: option_value.id)
     end

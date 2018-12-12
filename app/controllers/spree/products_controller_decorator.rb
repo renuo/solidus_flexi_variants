@@ -15,16 +15,16 @@ module Spree
       @product = Product.friendly.find(params[:product_id])
       return unless @product
 
-      @variants = Variant.active.includes([:option_values, :images]).where(product_id: @product.id)
+      @variants = Variant.active.includes(%i[option_values images]).where(product_id: @product.id)
       @product_properties = ProductProperty.includes(:property).where(product_id: @product.id)
-      @selected_variant = @variants.detect { |v| v.available? }
+      @selected_variant = @variants.detect(&:available?)
 
       referer = request.env['HTTP_REFERER']
 
       # HTTP_REFERER_REGEXP (from spree) is unknown constant sometimes.  not sure why.
       # FIXTHIS I really don't like this
-      if referer && referer.match(/^https?:\/\/[^\/]+\/t\/([a-z0-9\-\/]+)$/)
-        @taxon = Taxon.find_by_permalink($1)
+      if referer && referer.match(%r{^https?://[^/]+/t/([a-z0-9\-/]+)$})
+        @taxon = Taxon.find_by_permalink(Regexp.last_match(1))
       end
 
       respond_with(@product)

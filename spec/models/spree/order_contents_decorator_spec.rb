@@ -7,11 +7,11 @@ RSpec.describe Spree::OrderContents do
 
   describe '#add' do
     context 'with product customization' do
-      let(:calc) {
+      let(:calc) do
         calc = Spree::Calculator::Engraving.new
         calc.preferred_price_per_letter = 5
         calc
-      }
+      end
       let(:product_customization) { build(:product_customization, :with_engraving) }
 
       before do
@@ -20,11 +20,11 @@ RSpec.describe Spree::OrderContents do
       end
 
       it 'updates the order total price to include the price modifier' do
-        expect{ subject.add(variant, 1, { product_customizations: [product_customization], customization_price: 5.00 }) }.to change { order.total }.from(0.00).to(10.00)
+        expect { subject.add(variant, 1, product_customizations: [product_customization], customization_price: 5.00) }.to change { order.total }.from(0.00).to(10.00)
       end
 
       it 'attaches product customizations to the line item' do
-        subject.add(variant, 1, { product_customizations: [product_customization], customization_price: 5.00 })
+        subject.add(variant, 1, product_customizations: [product_customization], customization_price: 5.00)
 
         expect(order.line_items.first.product_customizations.length).to eq(1)
       end
@@ -34,11 +34,11 @@ RSpec.describe Spree::OrderContents do
       let(:ad_hoc_option_value) { create(:ad_hoc_option_value, price_modifier: 5.00, option_value: create(:option_value, name: 'small')) }
 
       it 'updates the order total price to include the price modifier' do
-        expect{ subject.add(variant, 1, { ad_hoc_option_values: [ad_hoc_option_value.id] }) }.to change { order.total }.from(0.00).to(10.00)
+        expect { subject.add(variant, 1, ad_hoc_option_values: [ad_hoc_option_value.id]) }.to change { order.total }.from(0.00).to(10.00)
       end
 
       it 'attaches ad hoc option values to the line item' do
-        subject.add(variant, 1, { ad_hoc_option_values: [ad_hoc_option_value.id] })
+        subject.add(variant, 1, ad_hoc_option_values: [ad_hoc_option_value.id])
 
         expect(order.line_items.first.ad_hoc_option_values.length).to eq(1)
       end

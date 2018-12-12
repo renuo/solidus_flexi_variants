@@ -1,10 +1,8 @@
 module Spree
   module Admin
     class AdHocOptionValuesController < ResourceController
-
       before_action :load_product, except: [:destroy]
       before_action :load_ad_hoc_option_type, except: [:destroy]
-
 
       def destroy
         ad_hoc_option_value = AdHocOptionValue.find(params[:id])
@@ -15,9 +13,12 @@ module Spree
         end
 
         respond_with(ad_hoc_option_value) do |format|
-          format.html { redirect_to edit_admin_product_ad_hoc_option_type_path(
-                          ad_hoc_option_value.ad_hoc_option_type.product_id,
-          ad_hoc_option_value.ad_hoc_option_type_id) }
+          format.html do
+            redirect_to edit_admin_product_ad_hoc_option_type_path(
+              ad_hoc_option_value.ad_hoc_option_type.product_id,
+              ad_hoc_option_value.ad_hoc_option_type_id
+            )
+          end
           format.js { render_js_for_destroy }
         end
       end
@@ -29,7 +30,7 @@ module Spree
       end
 
       def load_product
-        @product =  Spree::Product.friendly.find(params[:product_id])
+        @product = Spree::Product.friendly.find(params[:product_id])
       end
 
       def load_ad_hoc_option_type

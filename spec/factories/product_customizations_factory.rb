@@ -3,7 +3,6 @@ FactoryBot.define do
     product_customization_type { |p| p.association(:product_customization_type) }
     line_item { |p| p.association(:line_item) }
 
-
     trait :with_customization_image do
       customized_product_options { [create(:customized_product_option, product_option_name: 'customization_image')] }
     end
@@ -33,11 +32,10 @@ FactoryBot.define do
       customized_opt.customizable_product_option = create(:customizable_product_option, name: evaluator.product_option_name)
 
       if evaluator.product_option_name == 'customization_image'
-        File.open("./spec/fixtures/thinking-cat.jpg") {|f| customized_opt.customization_image.store!(f)}
+        File.open('./spec/fixtures/thinking-cat.jpg') { |f| customized_opt.customization_image.store!(f) }
       end
     end
   end
-
 
   factory :customizable_product_option, class: Spree::CustomizableProductOption do
     sequence(:name) { |n| "Customizable Product Option ##{n} - #{Kernel.rand(9999)}" }
