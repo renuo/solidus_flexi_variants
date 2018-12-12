@@ -7,4 +7,6 @@ Spree::OptionValue.class_eval do
                     url: '/spree/options/:id/:style/:basename.:extension',
                     path: ':rails_root/public/spree/options/:id/:style/:basename.:extension',
                     default_url: 'noimage/:style.png'
+
+  validates_attachment :attachment, content_type: { content_type: %r{\Aimage/.*\Z} }
 end
