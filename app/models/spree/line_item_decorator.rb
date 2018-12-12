@@ -1,8 +1,12 @@
 module Spree
-  LineItem.class_eval do
-    has_many :ad_hoc_option_values_line_items, dependent: :destroy
-    has_many :ad_hoc_option_values, through: :ad_hoc_option_values_line_items
-    has_many :product_customizations, dependent: :destroy
+  module LineItemDecorator
+    class << self
+      def prepended(klass)
+        klass.has_many :ad_hoc_option_values_line_items, dependent: :destroy
+        klass.has_many :ad_hoc_option_values, through: :ad_hoc_option_values_line_items
+        klass.has_many :product_customizations, dependent: :destroy
+      end
+    end
 
     def options_text # REFACTOR
       if customized?
@@ -56,3 +60,5 @@ module Spree
     end
   end
 end
+
+Spree::LineItem.prepend Spree::LineItemDecorator

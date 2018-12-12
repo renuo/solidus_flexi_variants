@@ -1,5 +1,5 @@
 module Spree
-  ProductsController.class_eval do
+  module ProductsControllerDecorator
     def customize
       # copied verbatim from 0.60 ProductsController#show, except that I changed id to product_id on following line
       # TODO: is there another way?  e.g. render action: "show", template: "customize" ?
@@ -31,3 +31,5 @@ module Spree
     end
   end
 end
+
+Spree::ProductsController.prepend Spree::ProductsControllerDecorator
