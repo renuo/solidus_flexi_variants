@@ -3,7 +3,6 @@
 
   <div id="ad_hoc_options">
     <div class='col-sm-12'>
-      <h3 class="product-section-title"><%= I18n.t(:select_variant_options, scope: [:spree]) %></h3>
       <% if @product.ad_hoc_variant_exclusions.present? %>
         <h6 id="not_all_available">
           <%= I18n.t(:not_all_combinations_available, scope: [:spree]) %>
