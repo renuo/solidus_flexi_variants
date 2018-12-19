@@ -10,7 +10,7 @@ module Spree
 
     def product_customizations_match(line_item, options)
       existing_customizations = line_item.product_customizations
-      new_customizations = options[:product_customizations]
+      new_customizations = options[:product_customizations] || []
 
       return true if existing_customizations.empty? && new_customizations.empty?
 

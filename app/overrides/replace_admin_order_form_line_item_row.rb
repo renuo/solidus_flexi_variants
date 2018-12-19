@@ -9,7 +9,7 @@ Deface::Override.new(
   virtual_path: 'spree/admin/orders/_carton_manifest',
   name: 'add_additional_line_item_fields_partial_to_admin_carton_manifest',
   insert_bottom: '.item-name',
-  text: "<%= render partial: 'spree/shared/additional_line_item_fields', locals: { item: item } %>"
+  text: "<%= render partial: 'spree/shared/additional_line_item_fields', locals: { item: item.line_item } %>"
 )
 
 Deface::Override.new(
